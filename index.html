@@ -101,7 +101,6 @@
   }
   .hero-bg-word{
     position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-
     font-family:var(--serif);font-size:clamp(80px,18vw,260px);
     color:transparent;-webkit-text-stroke:1px rgba(232,228,220,.08);
     white-space:nowrap;pointer-events:none;user-select:none;
@@ -436,6 +435,9 @@
     position:absolute;inset:0;width:100%;height:100%;border:0;
     object-fit:cover;display:block;background:#0d0d0d;
   }
+  .slot-frame iframe[src*="figma"]{
+    background:#fff;
+  }
   .slot-frame video{object-fit:cover;}
   .slot-empty{
     position:absolute;inset:0;display:flex;flex-direction:column;
@@ -730,38 +732,6 @@
 <script>
 /* ============================================================
    ROUX PORTFOLIO
-   ============================================================
- 
-   ▓▓▓ HOW TO ADD YOUR OWN IMAGES / VIDEOS / PDFs ▓▓▓
- 
-   Everything lives in the `media` object below (search for
-   "MEDIA LIBRARY"). Each project has a list of slots. To fill a
-   slot, just put a file path in `src`:
- 
-       { src:"media/branding-01.jpg", label:"Logo suite" }
- 
-   File type is detected automatically from the extension:
-       .jpg .jpeg .png .webp .gif .avif .svg  → image
-       .mp4 .webm .mov .m4v                   → video player
-       .pdf                                   → embedded PDF + "Open" link
-       a YouTube / Vimeo link                 → embedded player
- 
-   Keep your files next to the HTML like this:
- 
-       index.html
-       media/
-         branding-01.jpg
-         showreel.mp4
-         lookbook.pdf
- 
-   Optional extras on any slot:
-       size:"tall"  → portrait slot (good for posters, phone screens)
-       size:"wide"  → full-width slot (good for video + showreels)
-       label:"..."  → shows under the media, and inside the empty slot
-       poster:"..." → cover image for a video before it plays
- 
-   Leave `src:""` and the slot stays a labelled placeholder — it
-   tells you exactly which line to edit. Add or delete slots freely.
    ============================================================ */
  
 const hasGsap = typeof gsap !== "undefined";
@@ -818,8 +788,7 @@ const projects = [
 ];
  
 /* ============================================================
-   ▓▓▓ MEDIA LIBRARY — THIS IS THE ONLY BIT YOU EDIT ▓▓▓
-   Put your file paths into `src`. Empty = placeholder.
+   MEDIA LIBRARY
    ============================================================ */
 const media = {
   "business-branding":[
@@ -827,10 +796,10 @@ const media = {
     { src:"images/Blue Subway Billboard Minimalist Peace Quote Instagram Post.png", label:"Logo suite" },
     { src:"images/Grey Modern Social Media Mockup Online Portfolio.png", label:"Colour & type system" },
     { src:"images/Green Modern Poster Mockup Instagram Post.png", label:"Applications / mockups" },
-    { src:"images/Eduv7038853 - Comunication Design - Oral.pdf", label:"Brand guidelines (PDF)" },
+    { src:"images/Eduv7038853 - Comunication Design - Oral_compressed.pdf", label:"Brand guidelines (PDF)" },
 	{ src:"images/corprate id 1.PNG", label:"Brand guidelines (PDF)",      size:"tall"  },
 	{ src:"images/corprate id 2.PNG", label:"Brand guidelines (PDF)",      size:"tall"  },
-	{ src:"images/Black Modern Fashion Studio Presentation-3.pdf", label:"Brand guidelines (PDF)" },
+	{ src:"images/Black Modern Fashion Studio Presentation-3_compressed.pdf", label:"Brand guidelines (PDF)" },
 	{ src:"images/Grey Modern Social Media Mockup Online Portfolioaq.png", label:"Brand guidelines (PDF)", size:"wide" },
   ],
   "character-design":[
@@ -845,37 +814,56 @@ const media = {
   ],
   "packaging-design":[
     { src:"images/image_original.png", label:"Packaging hero shot",    size:"wide" },
-    { src:"images/dielines.pdf", label:"Dieline flat" },
+    { src:"images/dielines_compressed.pdf", label:"Dieline flat" },
     { src:"images/image_original1.png", label:"Shelf mockup" },
-	{ src:"images/die lines_pachakgin.pdf", label:"dielines scrabble box", size:"wide" },
+	{ src:"images/die lines_pachakgin_compressed.pdf", label:"dielines scrabble box", size:"wide" },
     { src:"images/scrabble mockup.PNG", label:"scrabble packaging",size:"wide" },
   ],
   "short-film":[
-    { src:"images/langofhands.mp4", label:"Watch the film",         size:"wide" },
-    { src:"images/microtrailer.mp4", label:"Trailer" },
-    { src:"images/poeshortfilm.pdf", label:"Portfolio Of Evidence (PDF)" },
+    { src:"https://youtu.be/0vcfHRmejUM?si=vv7GLgEVNP7VT-FX", label:"Watch the film",         size:"wide" },
+    { src:"https://youtu.be/2Xb_vuz6sXU?si=eUqUwveW3LvFX6rN", label:"Trailer" },
+    { src:"images/poeshortfilm_compressed.pdf", label:"Portfolio Of Evidence (PDF)" },
   ],
   "logo-vectorising":[
-    { src:"images/ai logo tracing.pdf", label:"Zoom comparison",        size:"wide" },
+    { src:"images/ai logo tracing_compressed.pdf", label:"Zoom comparison",        size:"wide" },
   ],
-  "web-app-design":[
-    { src:"images/V-Way — Mozilla Firefox 2026-09-10 19-07-07.mp4", label:"v-way" ,        size:"wide"},
-    { src:"images/Copy of Digital Design-5.pdf", label:"Design system",  },
-  ],
+  "web-app-design": [
+  { 
+    src: "images/V-Way — Mozilla Firefox 2026-09-10 19-07-07.mp4", 
+    label: "v-way", 
+    size: "wide",
+    type: "video"
+  },
+  { 
+    src: "images/Copy of Digital Design-5_compressed.pdf", 
+    label: "Design system",
+    type: "pdf"
+  },
+  { 
+    src: "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/JGDGpNodDS0I5NQzpKIqD2/v---way?node-id=1-4&starting-point-node-id=1%3A4", 
+    label: "figma v-way app prototype",
+    type: "figma"
+  },
+  {
+    src: "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/qstBpYoUet6GWsvolnGg4N/coca-cola-app-redesign--Copy-?node-id=1-3&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2107%3A1184",
+    label: "coca-cola b2b app figma prototype",
+    type: "figma"
+  }
+],
 	
   "editorial":[
     { src:"images/dps1.PNG", label:"Spread 01" },
     { src:"images/dps2.PNG", label:"Spread 02" },
     { src:"images/lwlmagcover.PNG", label:"back and front cover page",  size: "wide"},
-	{ src:"images/pixel typface.pdf", label:"typography" },
-	{ src:"images/collectors guide final.pdf", label:"scrabble game guide" },
-    { src:"images/typepoe.pdf", label:"scrabble POE" },
+	{ src:"images/pixel typface_compressed.pdf", label:"typography" },
+	{ src:"images/collectors guide final_compressed.pdf", label:"scrabble game guide" },
+    { src:"images/typepoe_compressed.pdf", label:"scrabble POE" },
   ],
   "animation-showreel":[
     { src:"images/animationshowreel.mp4", label:"Showreel",               size:"wide" },
   ],
   "digital-illustration":[
-    { src:"images/Digital_Illistration_Portfolio.pdf", label:"2026 digital illustrations",         size:"wide" },
+    { src:"images/Digital_Illistration_Portfolio_compressed.pdf", label:"2026 digital illustrations",         size:"wide" },
   ],
 };
  
@@ -907,6 +895,7 @@ function kindOf(m){
   const src = (m.src||"").trim();
   if(!src) return "empty";
   if(/youtube\.com|youtu\.be|vimeo\.com/i.test(src)) return "embed";
+  if(/figma\.com/i.test(src)) return "figma";
   const ext = src.split("?")[0].split("#")[0].split(".").pop().toLowerCase();
   if(IMG.includes(ext)) return "image";
   if(VID.includes(ext)) return "video";
@@ -928,7 +917,7 @@ function mediaSlot(m, i, slug, color){
   const kind = kindOf(m);
   const label = m.label || ("Slot " + (i+1));
   let size = m.size || "";
-  if(kind === "pdf" && !size) size = "doc";
+  if((kind === "pdf" || kind === "figma") && !size) size = "doc";
   let inner = "";
  
   if(kind === "empty"){
@@ -945,12 +934,19 @@ function mediaSlot(m, i, slug, color){
     inner = `<iframe src="${esc(embedUrl(m.src))}" title="${esc(label)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
   } else if(kind === "pdf"){
     inner = `<iframe src="${esc(m.src)}#view=FitH" title="${esc(label)}" loading="lazy"></iframe>`;
+  } else if(kind === "figma"){
+    inner = `<iframe src="${esc(m.src)}" 
+      title="${esc(label)}" 
+      allow="fullscreen; autoplay; clipboard-read; clipboard-write" 
+      allowfullscreen 
+      loading="lazy"
+      style="background:#fff;"></iframe>`;
   }
  
   const cap = kind === "empty"
     ? ""
     : `<figcaption class="slot-cap"><span>${esc(label)}</span>${
-        (kind === "pdf" || kind === "embed")
+        (kind === "pdf" || kind === "embed" || kind === "figma")
           ? `<a href="${esc(m.src)}" target="_blank" rel="noopener">Open ↗</a>`
           : ""}</figcaption>`;
  
